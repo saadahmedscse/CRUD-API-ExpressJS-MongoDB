@@ -7,7 +7,21 @@ const Todo = new mongoose.model("Todo", todoSchema);
 
 //Get all the Todos
 router.get("/get-todos", async (req, res) => {
-  //
+  await Todo.find()
+    .select({
+      _id: 0,
+      __v: 0,
+    })
+    .exec((err, data) => {
+      if (err) {
+        res.status(400).json({ status: "Server error" });
+      } else {
+        res.json({
+          status: "Success",
+          data: data,
+        });
+      }
+    });
 });
 
 //Get a todo by id
@@ -62,8 +76,8 @@ router.put("/update/:id", async (req, res) => {
         res.status(400).json({ status: "Bad request" });
       } else {
         res.json({
-          status: "Todo updated successfully",
-          data: data,
+          status: "Success",
+          message: "Todo updated successfully",
         });
       }
     }
