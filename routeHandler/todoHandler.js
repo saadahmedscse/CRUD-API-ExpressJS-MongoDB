@@ -32,7 +32,16 @@ router.post("/add", async (req, res) => {
 
 //Post multiple todo
 router.post("/add-multiple", async (req, res) => {
-  //
+  await Todo.insertMany(req.body, (err, data) => {
+    if (err) {
+      res.status(400).json({ status: "Bad request" });
+    } else {
+      res.json({
+        status: "Todo added successfully",
+        data: data,
+      });
+    }
+  });
 });
 
 //Update a todo
