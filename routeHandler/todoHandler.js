@@ -26,7 +26,16 @@ router.get("/get-todos", async (req, res) => {
 
 //Get a todo by id
 router.get("/get-todo/:id", async (req, res) => {
-  //
+  await Todo.find({ _id: req.params.id }, (err, data) => {
+    if (err) {
+      res.status(400).json({ status: "Server error" });
+    } else {
+      res.json({
+        status: "Success",
+        data: data,
+      });
+    }
+  }).clone();
 });
 
 //Post a todo
@@ -86,7 +95,16 @@ router.put("/update/:id", async (req, res) => {
 
 //Delete a todo
 router.delete("/delete/:id", async (req, res) => {
-  //
+  await Todo.deleteOne({ _id: req.params.id }, (err, data) => {
+    if (err) {
+      res.status(400).json({ status: "Server error" });
+    } else {
+      res.json({
+        status: "Success",
+        data: data,
+      });
+    }
+  }).clone();
 });
 
 module.exports = router;
