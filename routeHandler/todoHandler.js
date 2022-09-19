@@ -46,7 +46,28 @@ router.post("/add-multiple", async (req, res) => {
 
 //Update a todo
 router.put("/update/:id", async (req, res) => {
-  //
+  await Todo.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      $set: {
+        status: req.body.status,
+        is_completed: req.body.is_completed,
+      },
+    },
+    {},
+    (err, data) => {
+      if (err) {
+        res.status(400).json({ status: "Bad request" });
+      } else {
+        res.json({
+          status: "Todo updated successfully",
+          data: data,
+        });
+      }
+    }
+  ).clone();
 });
 
 //Delete a todo
