@@ -22,13 +22,10 @@ const server = app.listen(3000);
 
 const io = socket(server);
 
-let count = 0;
-
 io.on("connection", (socket) => {
   console.log(`New socket connection: ${socket.id}`);
 
-  socket.on("counter", () => {
-    count++;
-    io.emit("counter", count);
+  socket.on("data", (args) => {
+    io.emit("data", args);
   });
 });
